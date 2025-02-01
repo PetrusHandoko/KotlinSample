@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="562ccc52-454c-4445-a73d-c202764c1668" name="Changes" comment="Kotlin palindrome">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Palindrome.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Palindrome.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +39,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
-    "Kotlin.PalindromeKt.executor": "Debug",
+    "Kotlin.PalindromeKt.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -107,7 +106,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738137987655</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Kotlin palindrome">
+      <option name="closed" value="true" />
+      <created>1738445507480</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1738445507480</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -120,12 +127,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/Palindrome.kt</url>
-          <line>5</line>
+          <line>6</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/Palindrome.kt</url>
-          <line>8</line>
+          <line>9</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
