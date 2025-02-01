@@ -21,20 +21,19 @@ class Palindrome {
 }
 
 fun main (){
-    val input = "ABA"//""ABACDCAEEWREABBA"
+    val input = "ABACDCAEEWREABBA"
 
-    println( "A "+ "A".isPalindrome())
+    println( "Test "+ "A".isPalindrome())
     "AA".isPalindrome()
     "ABA".isPalindrome()
     "ABBA".isPalindrome()
     val res = Palindrome.find(input)
     println("------------")
-    println( "Input string $input is palindrome? "+ input.isPalindrome())
-    println ("Palindrome: $res " + res.isPalindrome())
+    println( "Input string $input is palindrome? ${input.isPalindrome()}.\nMax palindrome found $res")
+    //println ("Palindrome: $res " + res.isPalindrome())
 }
 
 fun String.isPalindrome() : Boolean  {
-    println(this)
     if ( this.length <= 1 ) return false
     for ( i in 0..this.length/2 ){
         val end = this.length-i-1
