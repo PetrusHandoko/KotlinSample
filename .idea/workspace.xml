@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="562ccc52-454c-4445-a73d-c202764c1668" name="Changes" comment="Kotlin palindrome">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Palindrome.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Palindrome.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +24,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -36,7 +40,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
-    "Kotlin.PalindromeKt.executor": "Run",
+    "Kotlin.PalindromeKt.executor": "Debug",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -45,6 +49,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/phandoko/project/SampleCode1",
     "onboarding.tips.debug.path": "/Users/phandoko/project/SampleCode1/src/Main.java"
   }
 }]]></component>
@@ -120,7 +125,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/Palindrome.kt</url>
-          <line>9</line>
+          <line>8</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

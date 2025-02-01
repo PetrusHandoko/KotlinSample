@@ -2,22 +2,15 @@ class Palindrome {
 
     companion object {
         fun find(input: String): String {
+            if ( input.isPalindrome()) return input
             var maxPalindrome = ""
             for (i in 0..input.length-2) {
-                var tail = i + 2
-                var current = input.substring(i, tail)
-                var notend = true
-                while (notend && !current.isPalindrome()) {
-                    if (tail < input.length/2+1) {
-                        tail++
-                        current = input.substring(i, tail)
-                    } else {
-                        notend = false
-                    }
-                }
-                if (notend) {
-                    // find palindrome
-                    if (maxPalindrome.length < current.length) {
+                var tail = i+1
+                var foundOne = false //current.isPalindrome()
+                while (!foundOne && tail++ < input.length/2 + 1) {
+                    val current = input.substring(i, tail)
+                    foundOne = current.isPalindrome()
+                    if (foundOne && maxPalindrome.length <= current.length){
                         maxPalindrome = current
                     }
                 }
@@ -28,19 +21,21 @@ class Palindrome {
 }
 
 fun main (){
-    val input = "ABACDCAEEWREABBA"
-    println( "$input is "+ input.isPalindrome())
+    val input = "ABA"//""ABACDCAEEWREABBA"
 
     println( "A "+ "A".isPalindrome())
     "AA".isPalindrome()
     "ABA".isPalindrome()
     "ABBA".isPalindrome()
-    println ("P " + Palindrome.find(input))
+    val res = Palindrome.find(input)
+    println("------------")
+    println( "Input string $input is palindrome? "+ input.isPalindrome())
+    println ("Palindrome: $res " + res.isPalindrome())
 }
 
 fun String.isPalindrome() : Boolean  {
     println(this)
-    if ( this.length==1) return false
+    if ( this.length <= 1 ) return false
     for ( i in 0..this.length/2 ){
         val end = this.length-i-1
         if ( this[i] != this[end]){
