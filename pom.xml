@@ -21,11 +21,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.eurekaoptimus</groupId>
-            <artifactId>SampleCode1</artifactId>
-            <version>1</version>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core-jvm</artifactId>
             <version>1.5.0</version>
