@@ -3,6 +3,11 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 lib/
+target/
+kotlinc.xml
+misc.xml
+SampleCode1.iml
+workspace.xml
 
 ### Eclipse ###
 .apt_generated
