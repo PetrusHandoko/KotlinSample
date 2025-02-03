@@ -11,11 +11,12 @@ class PalindromeAsync {
             val result = mutableListOf<Deferred<String>>()
             if ( input.isPalindrome()) return listOf(input)
             runBlocking {
-                for (i in 0..input.length - 2) {
-                    val pali = async (context = Dispatchers.Default ){
+                for (i in 0..input.length - 1) {
+                    val defferedResult = async (context = Dispatchers.Default ){
                         var tail = i + 1
                         var localMaxPalindrome = ""
-                        while (tail++ < input.length / 2 + 1) {
+                        val maxLoop = if ( (input.length/2 + i) < input.length) (input.length/2 + i) else input.length
+                        while (tail++ < maxLoop ) {
                             val current = input.substring(i, tail)
                             if ((localMaxPalindrome.length <= current.length) && current.isPalindrome()) {
                                 localMaxPalindrome = current
@@ -23,7 +24,7 @@ class PalindromeAsync {
                         }
                         localMaxPalindrome
                     }
-                    result.add(pali)
+                    result.add(defferedResult)
                 }
             }
             return result.awaitAll().filter { it.isNotBlank() }.distinct()
@@ -53,7 +54,6 @@ suspend fun String.findMaxPalindrome(): String = PalindromeAsync.find(this).find
 fun String.isPalindrome() : Boolean  {
     if ( this.length <= 1 ) return false
     for ( i in 0..this.length/2 ){
-        //val end = this.length-i-1
         if ( this[i] != this[this.length-i-1]){
             return false
         }
@@ -64,7 +64,7 @@ fun String.isPalindrome() : Boolean  {
 
 
 fun main (){
-    val input = """
+    val longinput = """
             ABACDCAEABACDCAEEWRFAaaaaacffcscscfcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
@@ -87,12 +87,18 @@ fun main (){
             ABACDCAEABACDCAEEWRFAaaaaacscscfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             """
+
+//    val shortInput1 = "UABBAQWOILJBHUABDFBAQWOILJBHUABCBAQWOILJBH"
+    val shortInput = "UABCBAQ"
+    //val input = shortInput
+    val input = longinput
+    //println("Input $input")
     runBlocking {
         var out: String
         val duration = measureTimeMillis {
             out = Palindrome.find(input)
         }
-        println("Palindrome with input length ${input.length}, is $out (${out.length}. Run time:$duration milli seconds" )
+        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:$duration milli seconds" )
     }
 
     runBlocking {

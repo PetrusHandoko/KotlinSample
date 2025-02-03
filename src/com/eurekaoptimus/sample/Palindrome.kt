@@ -8,9 +8,10 @@ class Palindrome {
         fun find(input: String): String {
             if ( input.isPalindrome()) return input
             var maxPalindrome = ""
-            for (i in 0..input.length-2) {
-                var tail = i + 1
-                while (tail++ < input.length / 2 + 1) {
+            for (i in 0..input.length) {
+                var tail = i+1
+                val maxLoop = if ( (input.length/2 + i + tail) < input.length) (input.length/2 + i + tail) else input.length
+                while (tail++ < maxLoop ) {
                     val current = input.substring(i, tail)
                     if ((maxPalindrome.length <= current.length) && current.isPalindrome()) {
                         maxPalindrome = current
