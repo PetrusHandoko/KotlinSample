@@ -11,8 +11,8 @@ class PalindromeAsync {
             val result = mutableListOf<Deferred<String>>()
             if ( input.isPalindrome()) return listOf(input)
             runBlocking {
-                for (i in 0..input.length - 1) {
-                    val defferedResult = async (context = Dispatchers.Default ){
+                for (i in 0..<input.length) {
+                    val deferredResult = async (context = Dispatchers.Default ){
                         var tail = i + 1
                         var localMaxPalindrome = ""
                         val maxLoop = if ( (input.length/2 + i) < input.length) (input.length/2 + i) else input.length
@@ -24,7 +24,7 @@ class PalindromeAsync {
                         }
                         localMaxPalindrome
                     }
-                    result.add(defferedResult)
+                    result.add(deferredResult)
                 }
             }
             return result.awaitAll().filter { it.isNotBlank() }.distinct()
