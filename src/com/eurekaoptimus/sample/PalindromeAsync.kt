@@ -11,13 +11,13 @@ class PalindromeAsync {
             val result = mutableListOf<Deferred<String>>()
             if ( input.isPalindrome()) return listOf(input)
             runBlocking {
-                for (i in 0..<input.length) {
+                for (position in 0..<input.length) {
                     val deferredResult = async (context = Dispatchers.Default ){
-                        var tail = i + 1
+                        var tail = position + 1
                         var localMaxPalindrome = ""
-                        val maxLoop = if ( (input.length/2 + i) < input.length) (input.length/2 + i) else input.length
+                        val maxLoop = if ( (input.length/2 + position) < input.length) (input.length/2 + position) else input.length
                         while (tail++ < maxLoop ) {
-                            val current = input.substring(i, tail)
+                            val current = input.substring(position, tail)
                             if ((localMaxPalindrome.length <= current.length) && current.isPalindrome()) {
                                 localMaxPalindrome = current
                             }
@@ -123,7 +123,7 @@ fun main (){
 
 fun List<String>.printTable(numberOfColumn:Int) {
     this.forEachIndexed{ index, it ->
-        print(it + " ")
+        print("$it ")
         if ( (index+1)%(numberOfColumn-1) == 0  )println(it)
     }
 }
