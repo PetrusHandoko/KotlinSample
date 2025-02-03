@@ -29,6 +29,8 @@ class PalindromeAsync {
             return result.awaitAll().filter { it.isNotBlank() }.distinct()
 //                .findLongestString()
         }
+        suspend fun findLongest(input:String) = find(input).findLongestString()
+
     }
 }
 
@@ -100,6 +102,14 @@ fun main (){
         }
         out.printTable(20)
         val result = out.findLongestString()
+        println("Palindrome with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
+    }
+
+    runBlocking {
+        var result: String
+        val duration = measureTimeMillis {
+            result = PalindromeAsync.findLongest( input )
+        }
         println("Palindrome with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
     }
 
