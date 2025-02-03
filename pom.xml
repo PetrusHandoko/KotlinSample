@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.eurekaoptimus</groupId>
-    <artifactId>SampleCode1</artifactId>
+    <artifactId>KotlinSample</artifactId>
     <version>1</version>
 
     <properties>

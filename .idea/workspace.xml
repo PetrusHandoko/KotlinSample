@@ -4,229 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="562ccc52-454c-4445-a73d-c202764c1668" name="Changes" comment="Kotlin async">
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SampleCode1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SampleCode1.iml" afterDir="false" />
+    <list default="true" id="9d255d69-b98e-4007-a413-544deac39a75" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="Kotlin Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
-  <component name="ProjectId" id="2kH3OSCW8KAWwyjLPbZQXKwIfR2" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2sWFduGGv5Hr87V62LJri0I6gFY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "true",
-    "Kotlin.Com_eurekaoptimus_sample_PalindromeKt.executor": "Run",
-    "Kotlin.PalindromeAsyncKt.executor": "Run",
-    "Kotlin.PalindromeKt.executor": "Run",
-    "Maven.SampleCode1 [clean].executor": "Run",
-    "Maven.SampleCode1 [compile].executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "/Users/phandoko/project/SampleCode1/src/com/eurekaoptimus/sample",
-    "last_opened_file_path": "/Users/phandoko/project/SampleCode1",
-    "onboarding.tips.debug.path": "/Users/phandoko/project/SampleCode1/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "git-widget-placeholder": "main"
   }
 }]]></component>
-  <component name="RunManager" selected="Kotlin.PalindromeAsyncKt">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="SampleCode1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PalindromeAsyncKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.eurekaoptimus.sample.PalindromeAsyncKt" />
-      <module name="SampleCode1" />
-      <shortenClasspath name="NONE" />
-      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-        <option name="credential" />
-        <option name="region" />
-        <option name="useCurrentConnection" value="false" />
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PalindromeKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.eurekaoptimus.sample.PalindromeKt" />
-      <module name="SampleCode1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Kotlin.PalindromeKt" />
-      <item itemvalue="Kotlin.PalindromeAsyncKt" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Kotlin.PalindromeAsyncKt" />
-        <item itemvalue="Kotlin.PalindromeKt" />
-        <item itemvalue="Application.Main" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="562ccc52-454c-4445-a73d-c202764c1668" name="Changes" comment="" />
-      <created>1722926645876</created>
+      <changelist id="9d255d69-b98e-4007-a413-544deac39a75" name="Changes" comment="" />
+      <created>1738563515301</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1722926645876</updated>
+      <updated>1738563515301</updated>
     </task>
-    <task id="LOCAL-00001" summary="Save changes">
-      <option name="closed" value="true" />
-      <created>1724272187315</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1724272187315</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Kotlin palindrome">
-      <option name="closed" value="true" />
-      <created>1738137987655</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1738137987655</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Kotlin palindrome">
-      <option name="closed" value="true" />
-      <created>1738445507480</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1738445507480</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Kotlin palindrome">
-      <option name="closed" value="true" />
-      <created>1738445932592</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1738445932592</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Kotlin palindrome">
-      <option name="closed" value="true" />
-      <created>1738445951940</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1738445951940</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Kotlin palindrome">
-      <option name="closed" value="true" />
-      <created>1738446344465</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1738446344465</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Kotlin async">
-      <option name="closed" value="true" />
-      <created>1738456467719</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1738456467719</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Kotlin async">
-      <option name="closed" value="true" />
-      <created>1738473727491</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1738473727491</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Kotlin async">
-      <option name="closed" value="true" />
-      <created>1738473832604</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1738473832604</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Kotlin async">
-      <option name="closed" value="true" />
-      <created>1738474312262</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1738474312262</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Save changes" />
-    <MESSAGE value="Kotlin palindrome" />
-    <MESSAGE value="Kotlin async" />
-    <option name="LAST_COMMIT_MESSAGE" value="Kotlin async" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/com/eurekaoptimus/sample/PalindromeAsync.kt</url>
-          <line>15</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/com/eurekaoptimus/sample/PalindromeAsync.kt</url>
-          <line>18</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="JetRunConfigurationType">
-        <watch expression="i" language="kotlin" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>
