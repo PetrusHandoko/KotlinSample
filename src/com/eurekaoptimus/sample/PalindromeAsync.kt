@@ -7,9 +7,9 @@ import kotlin.system.measureTimeMillis
 class PalindromeAsync {
 
     companion object {
-        suspend fun find(input: String): String {
+        suspend fun find(input: String):  List<String> {
             val result = mutableListOf<Deferred<String>>()
-            if ( input.isPalindrome()) return input
+            if ( input.isPalindrome()) return listOf(input)
             runBlocking {
                 for (i in 0..input.length - 2) {
                     val pali = async (context = Dispatchers.Default ){
@@ -26,7 +26,8 @@ class PalindromeAsync {
                     result.add(pali)
                 }
             }
-            return result.awaitAll().findLongestString()
+            return result.awaitAll().filter { it.isNotBlank() }.distinct()
+//                .findLongestString()
         }
     }
 }
@@ -45,7 +46,7 @@ fun test(){
 }
 
 // DSL
-suspend fun String.findMaxPalindrome(): String = PalindromeAsync.find(this)
+suspend fun String.findMaxPalindrome(): String = PalindromeAsync.find(this).findLongestString()
 
 fun String.isPalindrome() : Boolean  {
     if ( this.length <= 1 ) return false
@@ -89,15 +90,24 @@ fun main (){
         val duration = measureTimeMillis {
             out = Palindrome.find(input)
         }
-        println("Palindrome with input length ${input.length} $out elapse:$duration milli seconds" )
+        println("Palindrome with input length ${input.length}, is $out (${out.length}. Run time:$duration milli seconds" )
     }
 
     runBlocking {
-        var out: String
+        var out: List<String>
         val duration = measureTimeMillis {
-            out = input.findMaxPalindrome()
+            out = PalindromeAsync.find( input )
         }
-        println("Async Palindrome with input length ${input.length} $out elapse:$duration milli seconds")
+        out.printTable(20)
+        val result = out.findLongestString()
+        println("Palindrome with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
     }
 
+}
+
+fun List<String>.printTable(numberOfColumn:Int) {
+    this.forEachIndexed{ index, it ->
+        print(it + " ")
+        if ( (index+1)%(numberOfColumn-1) == 0  )println(it)
+    }
 }
