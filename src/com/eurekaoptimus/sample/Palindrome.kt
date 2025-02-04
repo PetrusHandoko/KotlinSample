@@ -1,5 +1,6 @@
 package com.eurekaoptimus.sample
 
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 class Palindrome {
@@ -13,30 +14,33 @@ class Palindrome {
             var longest = s.substring(0, 1)
 
             println("  find   : I'm working in thread ${Thread.currentThread().name}")
-            for (i in s.indices) {
-                // Check for odd-length palindromes
-                var left = i
-                var right = i
-                while (left >= 0 && right < s.length && s[left] == s[right]) {
-                    if (right - left + 1 > longest.length) {
-                        longest = s.substring(left, right + 1)
-                    }
-                    left--
-                    right++
-                }
+            val duration = measureNanoTime {
 
-                // Check for even-length palindromes
-                left = i
-                right = i + 1
-                while (left >= 0 && right < s.length && s[left] == s[right]) {
-                    if (right - left + 1 > longest.length) {
-                        longest = s.substring(left, right + 1)
+                for (i in s.indices) {
+                    // Check for odd-length palindromes
+                    var left = i
+                    var right = i
+                    while (left >= 0 && right < s.length && s[left] == s[right]) {
+                        if (right - left + 1 > longest.length) {
+                            longest = s.substring(left, right + 1)
+                        }
+                        left--
+                        right++
                     }
-                    left--
-                    right++
+
+                    // Check for even-length palindromes
+                    left = i
+                    right = i + 1
+                    while (left >= 0 && right < s.length && s[left] == s[right]) {
+                        if (right - left + 1 > longest.length) {
+                            longest = s.substring(left, right + 1)
+                        }
+                        left--
+                        right++
+                    }
                 }
             }
-
+            println("Duration ${(duration/1000).toFloat()}")
             return longest.trim()
         }
 

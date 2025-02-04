@@ -2,6 +2,7 @@
 package com.eurekaoptimus.sample
 
 import kotlinx.coroutines.*
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 class PalindromeAsync {
@@ -47,17 +48,20 @@ class PalindromeAsync {
                     }
                     longest.trim()
                 }
-                even = deferredResult.await()
-                odd = deferredOddResult.await()
+//                val result = awaitAll(deferredResult, deferredOddResult)
+                val result = awaitAll(async {
+                   measureNanoTime {
+                        even = deferredResult.await()
+                    }
+                },
+                async {
+                    measureNanoTime {
+                        odd = deferredOddResult.await()
+                    }
+                })
 
-//                val duration = measureTimeMillis {
-//                    println(deferredResult.await())
-//                }
-//                val duration2 = measureTimeMillis {
-//                    println(deferredOddResult.await())
-//                }
-//                println("Duration $duration $duration2")
-//                result = if (deferredResult.await().length > deferredOddResult.await().length ) deferredResult.getCompleted() else deferredOddResult.getCompleted()
+                println("Even: $even (${even.length}) Odd: $odd (${odd.length}) Duration ${(result[0] / 1000).toFloat()} ${(result[1]/1000).toFloat()} ")
+
             }
 
             return if ( even.length > odd.length ) even else odd
@@ -109,17 +113,17 @@ fun main (){
     val input = longString()
     run {
         var out: String
-        val duration = measureTimeMillis {
+        val duration = measureNanoTime {
             out = Palindrome.find(input)
         }
-        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:$duration milli seconds" )
+        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:${(duration/1000.0).toFloat()}  milli seconds" )
     }
     runBlocking {
         var result: String
-        val duration = measureTimeMillis {
+        val duration = measureNanoTime {
             result = PalindromeAsync.find( input )
         }
-        println("Palindrome async with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
+        println("Palindrome async with input length ${input.length}, is $result (${result.length}). Run time:${(duration/1000.0).toFloat()} milli seconds" )
     }
 
 }
