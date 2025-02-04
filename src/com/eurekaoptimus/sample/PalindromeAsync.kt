@@ -2,6 +2,7 @@
 package com.eurekaoptimus.sample
 
 import kotlinx.coroutines.*
+import org.jetbrains.annotations.TestOnly
 import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
@@ -9,7 +10,8 @@ class PalindromeAsync {
 
     companion object {
         suspend fun find(input: String):  String {
-            //val result = mutableListOf<Deferred<String>>()
+
+            println("Palindrome async with input length ${input.length}")
             if ( input.isPalindrome()) return input
             return runBlocking {
                 val deferredResult = async (context = Dispatchers.Default ) {
@@ -59,7 +61,7 @@ class PalindromeAsync {
                     }
                 })
 
-                println("Even: $even (${even.length}) Odd: $odd (${odd.length}) Duration ${(result[0] / 1000.0).toFloat()} ${(result[1]/1000.0).toFloat()} ")
+                println("Even: $even (${even.length}) Duration  ${(result[1]/1000.0).toFloat()}  \nOdd: $odd (${odd.length}) Duration ${(result[0] / 1000.0).toFloat()}")
                 if ( even.length > odd.length ) even else odd
             }
         }
@@ -69,6 +71,8 @@ class PalindromeAsync {
 fun List<String>.findLongestString(): String {
     return this.maxByOrNull { it.length } ?: ""
 }
+
+@TestOnly
 fun test() {
 
     runBlocking {
@@ -112,14 +116,14 @@ fun main (){
         val duration = measureNanoTime {
             out = Palindrome.find(input)
         }
-        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:${(duration/1000.0).toFloat()}  milli seconds" )
+        println("  is $out (${out.length}). Run time:${(duration/1000.0).toFloat()}  milli seconds" )
     }
     runBlocking {
         var result: String
         val duration = measureNanoTime {
             result = PalindromeAsync.find( input )
         }
-        println("Palindrome async with input length ${input.length}, is $result (${result.length}). Run time:${(duration/1000.0).toFloat()} milli seconds" )
+        println("  is $result (${result.length}). Run time:${(duration/1000.0).toFloat()} milli seconds" )
     }
 
 }

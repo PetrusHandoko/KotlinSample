@@ -13,7 +13,7 @@ class Palindrome {
 
             var longest = s.substring(0, 1)
 
-            println("  find   : I'm working in thread ${Thread.currentThread().name}")
+            println("Palindrome with input length ${s.length}, \n  find   : I'm working in thread ${Thread.currentThread().name}")
             val duration = measureNanoTime {
 
                 for (i in s.indices) {
@@ -40,7 +40,7 @@ class Palindrome {
                     }
                 }
             }
-            println("Duration ${(duration/1000).toFloat()}")
+            println("  Duration ${(duration/1000).toFloat()}")
             return longest.trim()
         }
 
