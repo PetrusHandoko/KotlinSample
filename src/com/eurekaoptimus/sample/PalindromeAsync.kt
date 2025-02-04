@@ -11,10 +11,7 @@ class PalindromeAsync {
         suspend fun find(input: String):  String {
             //val result = mutableListOf<Deferred<String>>()
             if ( input.isPalindrome()) return input
-            var result = ""
-            var even = ""
-            var odd = ""
-            runBlocking {
+            return runBlocking {
                 val deferredResult = async (context = Dispatchers.Default ) {
                     println("  Even find      : I'm working in thread ${Thread.currentThread().name}")
                     var longest = input.substring(0, 1)
@@ -48,7 +45,9 @@ class PalindromeAsync {
                     }
                     longest.trim()
                 }
-//                val result = awaitAll(deferredResult, deferredOddResult)
+                var even = ""
+                var odd = ""
+
                 val result = awaitAll(async {
                    measureNanoTime {
                         even = deferredResult.await()
@@ -60,12 +59,9 @@ class PalindromeAsync {
                     }
                 })
 
-                println("Even: $even (${even.length}) Odd: $odd (${odd.length}) Duration ${(result[0] / 1000).toFloat()} ${(result[1]/1000).toFloat()} ")
-
+                println("Even: $even (${even.length}) Odd: $odd (${odd.length}) Duration ${(result[0] / 1000.0).toFloat()} ${(result[1]/1000.0).toFloat()} ")
+                if ( even.length > odd.length ) even else odd
             }
-
-            return if ( even.length > odd.length ) even else odd
-
         }
     }
 }
