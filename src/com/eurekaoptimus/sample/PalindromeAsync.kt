@@ -11,8 +11,11 @@ class PalindromeAsync {
             //val result = mutableListOf<Deferred<String>>()
             if ( input.isPalindrome()) return input
             var result = ""
+            var even = ""
+            var odd = ""
             runBlocking {
                 val deferredResult = async (context = Dispatchers.Default ) {
+                    println("Even find      : I'm working in thread ${Thread.currentThread().name}")
                     var longest = input.substring(0, 1)
                     for (i in 1..input.length) {
                         var left = i
@@ -25,9 +28,11 @@ class PalindromeAsync {
                             right++
                         }
                     }
-                    longest
+
+                    longest.trim()
                 }
                 val deferredOddResult = async (context = Dispatchers.Default ) {
+                    println("Odd find      : I'm working in thread ${Thread.currentThread().name}")
                     var longest = input.substring(0, 1)
                     for (i in 1..input.length) {
                         var left = i
@@ -40,11 +45,23 @@ class PalindromeAsync {
                             right++
                         }
                     }
-                    longest
+                    longest.trim()
                 }
-                result = if (deferredResult.await().length > deferredOddResult.await().length ) deferredResult.getCompleted() else deferredOddResult.getCompleted()
+                even = deferredResult.await()
+                odd = deferredOddResult.await()
+
+//                val duration = measureTimeMillis {
+//                    println(deferredResult.await())
+//                }
+//                val duration2 = measureTimeMillis {
+//                    println(deferredOddResult.await())
+//                }
+//                println("Duration $duration $duration2")
+//                result = if (deferredResult.await().length > deferredOddResult.await().length ) deferredResult.getCompleted() else deferredOddResult.getCompleted()
             }
-            return result.trim()
+
+            return if ( even.length > odd.length ) even else odd
+
         }
     }
 }
@@ -64,11 +81,11 @@ fun test() {
         println("Test 3 " + PalindromeAsync.find("ABBA"))
         println("Test 4 " + PalindromeAsync.find("DABBA"))
         println("Test 5 " + PalindromeAsync.find("DABBAF"))
-        println("Test 1 " + Palindrome.longestPalindrome("A"))
-        println("Test 2 " + Palindrome.longestPalindrome("ABA"))
-        println("Test 3 " + Palindrome.longestPalindrome("ABBA"))
-        println("Test 4 " + Palindrome.longestPalindrome("DABBA"))
-        println("Test 5 " + Palindrome.longestPalindrome("DABBAF"))
+        println("Test 1 " + Palindrome.find("A"))
+        println("Test 2 " + Palindrome.find("ABA"))
+        println("Test 3 " + Palindrome.find("ABBA"))
+        println("Test 4 " + Palindrome.find("DABBA"))
+        println("Test 5 " + Palindrome.find("DABBAF"))
     }
 }
 
@@ -89,7 +106,33 @@ fun String.isPalindrome() : Boolean  {
 fun main (){
     //test()
     //if ( true ) return
-    val longinput = """
+//    val shortInput1 = "UABBAQWOILJBHUABDFBAQWOILJBHUABCBAQWOILJBH"
+    val input = longString()
+    run {
+        var out: String
+        val duration = measureTimeMillis {
+            out = Palindrome.find(input)
+        }
+        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:$duration milli seconds" )
+    }
+    runBlocking {
+        var result: String
+        val duration = measureTimeMillis {
+            result = PalindromeAsync.find( input )
+        }
+        println("Palindrome async with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
+    }
+
+}
+
+fun List<String>.printTable(numberOfColumn:Int) {
+    this.forEachIndexed{ index, it ->
+        print("$it ")
+        if ( (index+1)%(numberOfColumn-1) == 0  )println(it)
+    }
+}
+
+fun longString(max:Int=92055) = """
             ABACDCAEABACDCAEEWRFBBBBBBBBBBAaaaaacfffcaaaaaABBBBBBBBBBABACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREAB    tattarrattat tattarrattat tattarrattat tattarrattat tattarrattat        ABACDCAEABACDCAEEWRFAaaaaacffcscscfcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaa            ABACDCAEABACDCAEEWRFAaaaaacffcscscfcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
@@ -287,50 +330,4 @@ fun main (){
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacscscfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
-            """
-//    val shortInput1 = "UABBAQWOILJBHUABDFBAQWOILJBHUABCBAQWOILJBH"
-    val shortInput = "UABCBAQ"
-    //val input = shortInput
-    val input = longinput
-    //println("Input $input")
-//    runBlocking {
-//        var out: String
-//        val duration = measureTimeMillis {
-//            out = Palindrome.find(input)
-//        }
-//        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:$duration milli seconds" )
-//    }
-    runBlocking {
-        var out: String
-        val duration = measureTimeMillis {
-            out = Palindrome.longestPalindrome(input)
-        }
-        println("Palindrome with input length ${input.length}, is $out (${out.length}). Run time:$duration milli seconds" )
-    }
-
-//    runBlocking {
-//        var out: List<String>
-//        val duration = measureTimeMillis {
-//            out = PalindromeAsync.find( input )
-//        }
-//        out.printTable(20)
-//        val result = out.findLongestString()
-//        println("Palindrome with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
-//    }
-
-    runBlocking {
-        var result: String
-        val duration = measureTimeMillis {
-            result = PalindromeAsync.find( input )
-        }
-        println("Palindrome async with input length ${input.length}, is $result (${result.length}). Run time:$duration milli seconds" )
-    }
-
-}
-
-fun List<String>.printTable(numberOfColumn:Int) {
-    this.forEachIndexed{ index, it ->
-        print("$it ")
-        if ( (index+1)%(numberOfColumn-1) == 0  )println(it)
-    }
-}
+            """.substring(0,max)

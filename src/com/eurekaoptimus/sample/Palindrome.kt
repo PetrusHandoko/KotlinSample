@@ -5,26 +5,14 @@ import kotlin.system.measureTimeMillis
 class Palindrome {
 
     companion object {
-        fun find(input: String): String {
-            if ( input.isPalindrome()) return input
-            var maxPalindrome = ""
-            for (i in 0..input.length) {
-                var tail = i+1
-                val maxLoop = if ( (input.length/2 + i + tail) < input.length) (input.length/2 + i + tail) else input.length
-                while (tail++ < maxLoop ) {
-                    val current = input.substring(i, tail)
-                    if ((maxPalindrome.length <= current.length) && current.isPalindrome()) {
-                        maxPalindrome = current
-                    }
-                }
-            }
-            return maxPalindrome
-        }
-        fun longestPalindrome(s: String): String {
+
+        fun find(s: String): String {
+
             if (s.isEmpty()) return ""
 
             var longest = s.substring(0, 1)
 
+            println("find odd    : I'm working in thread ${Thread.currentThread().name}")
             for (i in s.indices) {
                 // Check for odd-length palindromes
                 var left = i
