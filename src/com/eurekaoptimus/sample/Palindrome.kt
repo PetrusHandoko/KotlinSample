@@ -12,7 +12,7 @@ class Palindrome {
 
             var longest = s.substring(0, 1)
 
-            println("find odd    : I'm working in thread ${Thread.currentThread().name}")
+            println("  find   : I'm working in thread ${Thread.currentThread().name}")
             for (i in s.indices) {
                 // Check for odd-length palindromes
                 var left = i
