@@ -35,3 +35,4 @@ bin/
 .DS_Store
 /.idea/
 .idea/workspace.xml
+/KotlinSample.iml
