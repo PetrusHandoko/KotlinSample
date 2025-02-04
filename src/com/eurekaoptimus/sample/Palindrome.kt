@@ -49,7 +49,7 @@ class Palindrome {
                 }
             }
 
-            return longest
+            return longest.trim()
         }
 
     }
