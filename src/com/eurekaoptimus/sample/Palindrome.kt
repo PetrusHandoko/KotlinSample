@@ -51,37 +51,6 @@ class Palindrome {
 
             return longest
         }
-        fun longestPalindromes(s: String): String {
-            if (s.isEmpty()) return ""
-
-            var longest = s.substring(0, 1)
-
-            for (i in s.indices) {
-                // Check for odd-length palindromes
-                var left = i
-                var right = if (s.length%2 == 0 ) i else i+1
-                while (left >= 0 && right < s.length && s[left] == s[right]) {
-                    if (right - left + 1 > longest.length) {
-                        longest = s.substring(left, right + 1)
-                    }
-                    left--
-                    right++
-                }
-
-                // Check for even-length palindromes
-//                left = i
-//                right = i + 1
-//                while (left >= 0 && right < s.length && s[left] == s[right]) {
-//                    if (right - left + 1 > longest.length) {
-//                        longest = s.substring(left, right + 1)
-//                    }
-//                    left--
-//                    right++
-//                }
-            }
-
-            return longest
-        }
 
     }
 }
