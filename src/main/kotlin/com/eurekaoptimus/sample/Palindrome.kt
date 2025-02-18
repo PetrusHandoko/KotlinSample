@@ -8,21 +8,18 @@ class Palindrome {
     companion object {
 
         fun find(input: String): String {
-
             if (input.isEmpty()) return ""
-            var longest = input.substring(0, 1)
+            var longest = ""
             val duration = measureNanoTime {
                 for (i in 0..< input.length) {
                     input.expand_around_center(i){ left, right ->
                         if (right-left >= longest.length) {
                             longest = input.substring(left, right+1).trim()
-                           // println("1 $longest")
                         }
                     }
                     input.expand_around_center(i,i+1){ left, right ->
                         if (right-left >= longest.length) {
                             longest = input.substring(left, right+1).trim()
-                          //  println("2 $longest")
                         }
                     }
                 }

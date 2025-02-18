@@ -4,7 +4,6 @@ package com.eurekaoptimus.sample
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.TestOnly
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 class PalindromeAsync {
 
@@ -14,18 +13,14 @@ class PalindromeAsync {
             println("Palindrome async with input length ${input.length}")
 
             val durations = mutableListOf<Long>()
-
-//            if ( input.isPalindrome()) return input
-
-
-
             return runBlocking {
                 //val result = awaitAll(
-                val evenDeferred = async (context = Dispatchers.Default ) {
+//                val evenDeferred = async (context = Dispatchers.Default ) {
+               async (context = Dispatchers.Default ) {
                         var longest = input.substring(0, 1)
                         val duration = measureNanoTime {
                             println("  Even find      : I'm working in thread ${Thread.currentThread().name}")
-                            for (i in 1..input.length) {
+                            for (i in 0..< input.length) {
 
                                 input.expand_around_center(i){ left, right ->
                                     if (right-left >= longest.length) {
@@ -40,67 +35,22 @@ class PalindromeAsync {
                                     }
                                 }
                             }
-//                                var left = i
-//                                var right = i
-//                                var rightEven = i+1
-//                                while ((left > 0) && ((right < input.length && (input[left] == input[right]) ) ||
-//                                       (rightEven < input.length && (input[left] == input[rightEven]) )) ) {
-//                                    if (right - left + 1 > longest.length) {
-//                                        longest = input.substring(left, right + 1).trim()
-//                                        println("longest = $longest ${longest.length}")
-//                                    }
-//                                    if (rightEven - left + 1 > longest.length) {
-//                                        longest = input.substring(left, rightEven).trim()
-//                                        println("longest = $longest ${longest.length}")
-//                                    }
-//
-//                                    left--
-//                                    right++
-//                                    rightEven++
-//                                }
-//                            }
                         }
-                        durations.add(duration)
-                        longest
-                }
-//                val oddDeferred = async (context = Dispatchers.Default ) {
-//                    var longest = input.substring(0, 1)
-//                    val duration = measureNanoTime {
-//                        println("  Odd find       : I'm working in thread ${Thread.currentThread().name}")
-//                        for (i in 0..input.length) {
-//                            input.expand_around_center(i){ left, right ->
-//                                if (right - left + 1 > longest.length) {
-//                                    longest = input.substring(left, right + 1).trim()
-//                                }
-//                            }
-//                            input.expand_around_center(i,i+1){ left, right ->
-//                                if (right - left + 1 > longest.length) {
-//                                    longest = input.substring(left, right + 1).trim()
-//                                }
-//                            }
-//                        }
-//                    }
-//                    durations.add(duration)
-//                    longest
-//                }
-
-//                var even = result[0]
-//                var odd = result[1]
-                val even: String = evenDeferred.await()
-                even
-//                val odd = oddDeferred.await()
-//                println("Even: $even (${even.length}) Duration  ${durations[0]/1000.0}\nOdd: $odd (${odd.length}) Duration ${(durations[1] / 1000.0)}")
-//                if ( even.length > odd.length ) even else odd
+                    durations.add(duration)
+                    longest
+                }.await()
+               // val even: String = evenDeferred.await()
+               // even
             }
         }
     }
 }
 
-fun String.expand_around_center(p: Int, r: Int=p, compare: (s:Int, e:Int)->Any) {
+fun String.expand_around_center(p: Int, r: Int=p, updater: (s:Int, e:Int)->Any) {
     var left = p
     var right = r
     while (left >= 0 && right < this.length && this[left--] == this[right++]){
-        compare(left+1,right-1)
+        updater(left+1,right-1)
     }
 }
 
