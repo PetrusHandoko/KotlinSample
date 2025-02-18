@@ -7,40 +7,27 @@ class Palindrome {
 
     companion object {
 
-        fun find(s: String): String {
+        fun find(input: String): String {
 
-            if (s.isEmpty()) return ""
-
-            var longest = s.substring(0, 1)
-
-            println("Palindrome with input length ${s.length}, \n  find   : I'm working in thread ${Thread.currentThread().name}")
+            if (input.isEmpty()) return ""
+            var longest = input.substring(0, 1)
             val duration = measureNanoTime {
-
-                for (i in s.indices) {
-                    // Check for odd-length palindromes
-                    var left = i
-                    var right = i
-                    while (left >= 0 && right < s.length && s[left] == s[right]) { // && s[left] != ' ' && s[right] != ' '
-                        if (right - left + 1 > longest.length) {
-                            longest = s.substring(left, right + 1).trim()
+                for (i in 0..< input.length) {
+                    input.expand_around_center(i){ left, right ->
+                        if (right-left >= longest.length) {
+                            longest = input.substring(left, right+1).trim()
+                           // println("1 $longest")
                         }
-                        left--
-                        right++
                     }
-//                    longest.trim()
-                    // Check for even-length palindromes
-                    left = i
-                    right = i + 1
-                    while (left >= 0 && right < s.length && s[left] == s[right]) {
-                        if (right - left + 1 > longest.length) {
-                            longest = s.substring(left, right + 1).trim()
+                    input.expand_around_center(i,i+1){ left, right ->
+                        if (right-left >= longest.length) {
+                            longest = input.substring(left, right+1).trim()
+                          //  println("2 $longest")
                         }
-                        left--
-                        right++
                     }
                 }
             }
-            println("  Duration ${(duration/1000).toFloat()}")
+            println(" Duration ${(duration/1000).toFloat()}")
             return longest
         }
 
@@ -50,9 +37,39 @@ class Palindrome {
 fun main (){
 
     var res: String
-    val input = "ABACDCAEABACDCAEEWRFAaaaaacfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA"
-    val duration = measureTimeMillis {
-        res = Palindrome.find(input)
+    run {
+        val input = "ABACDCAEABACDCAEEWRFAaaaaacfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA"
+        val duration = measureTimeMillis {
+            res = Palindrome.find(input)
+        }
+        println("Palindrome with $input, length ${input.length} $res elapse:$duration")
     }
-    println("Palindrome with input length ${input.length} $res elapse:$duration")
+    run {
+        val input = "ABCBA"
+        val duration = measureTimeMillis {
+            res = Palindrome.find(input)
+        }
+        println("Palindrome with $input, length ${input.length} $res elapse:$duration")
+    }
+    run {
+        val input = "ABBA"
+        val duration = measureTimeMillis {
+            res = Palindrome.find(input)
+        }
+        println("Palindrome with $input, length ${input.length} $res elapse:$duration")
+    }
+    run {
+        val input = "TABBA"
+        val duration = measureTimeMillis {
+            res = Palindrome.find(input)
+        }
+        println("Palindrome with $input, length ${input.length} $res elapse:$duration")
+    }
+    run {
+        val input = "ABBAT"
+        val duration = measureTimeMillis {
+            res = Palindrome.find(input)
+        }
+        println("Palindrome with $input, length ${input.length} $res elapse:$duration")
+    }
 }

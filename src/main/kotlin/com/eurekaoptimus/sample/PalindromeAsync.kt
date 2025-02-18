@@ -15,7 +15,10 @@ class PalindromeAsync {
 
             val durations = mutableListOf<Long>()
 
-            if ( input.isPalindrome()) return input
+//            if ( input.isPalindrome()) return input
+
+
+
             return runBlocking {
                 //val result = awaitAll(
                 val evenDeferred = async (context = Dispatchers.Default ) {
@@ -23,48 +26,81 @@ class PalindromeAsync {
                         val duration = measureNanoTime {
                             println("  Even find      : I'm working in thread ${Thread.currentThread().name}")
                             for (i in 1..input.length) {
-                                var left = i
-                                var right = i
-                                while (left > 0 && right < input.length && input[left] == input[right]) {
-                                    if (right - left + 1 > longest.length) {
-                                        longest = input.substring(left, right + 1).trim()
+
+                                input.expand_around_center(i){ left, right ->
+                                    if (right-left >= longest.length) {
+                                        longest = input.substring(left, right+1).trim()
+                                        // println("1 $longest")
                                     }
-                                    left--
-                                    right++
+                                }
+                                input.expand_around_center(i,i+1){ left, right ->
+                                    if (right-left >= longest.length) {
+                                        longest = input.substring(left, right+1).trim()
+                                        //  println("2 $longest")
+                                    }
                                 }
                             }
+//                                var left = i
+//                                var right = i
+//                                var rightEven = i+1
+//                                while ((left > 0) && ((right < input.length && (input[left] == input[right]) ) ||
+//                                       (rightEven < input.length && (input[left] == input[rightEven]) )) ) {
+//                                    if (right - left + 1 > longest.length) {
+//                                        longest = input.substring(left, right + 1).trim()
+//                                        println("longest = $longest ${longest.length}")
+//                                    }
+//                                    if (rightEven - left + 1 > longest.length) {
+//                                        longest = input.substring(left, rightEven).trim()
+//                                        println("longest = $longest ${longest.length}")
+//                                    }
+//
+//                                    left--
+//                                    right++
+//                                    rightEven++
+//                                }
+//                            }
                         }
                         durations.add(duration)
                         longest
                 }
-                val oddDeferred = async (context = Dispatchers.Default ) {
-                    var longest = input.substring(0, 1)
-                    val duration = measureNanoTime {
-                        println("  Odd find       : I'm working in thread ${Thread.currentThread().name}")
-                        for (i in 1..input.length) {
-                            var left = i
-                            var right = i + 1
-                            while (left > 0 && right < input.length && input[left] == input[right]) {
-                                if (right - left + 1 > longest.length) {
-                                    longest = input.substring(left, right + 1).trim()
-                                }
-                                left--
-                                right++
-                            }
-                        }
-                    }
-                    durations.add(duration)
-                    longest
-                }
+//                val oddDeferred = async (context = Dispatchers.Default ) {
+//                    var longest = input.substring(0, 1)
+//                    val duration = measureNanoTime {
+//                        println("  Odd find       : I'm working in thread ${Thread.currentThread().name}")
+//                        for (i in 0..input.length) {
+//                            input.expand_around_center(i){ left, right ->
+//                                if (right - left + 1 > longest.length) {
+//                                    longest = input.substring(left, right + 1).trim()
+//                                }
+//                            }
+//                            input.expand_around_center(i,i+1){ left, right ->
+//                                if (right - left + 1 > longest.length) {
+//                                    longest = input.substring(left, right + 1).trim()
+//                                }
+//                            }
+//                        }
+//                    }
+//                    durations.add(duration)
+//                    longest
+//                }
 
 //                var even = result[0]
 //                var odd = result[1]
-                val even = evenDeferred.await()
-                val odd = oddDeferred.await()
-                println("Even: $even (${even.length}) Duration  ${durations[0]/1000.0}\nOdd: $odd (${odd.length}) Duration ${(durations[1] / 1000.0)}")
-                if ( even.length > odd.length ) even else odd
+                val even: String = evenDeferred.await()
+                even
+//                val odd = oddDeferred.await()
+//                println("Even: $even (${even.length}) Duration  ${durations[0]/1000.0}\nOdd: $odd (${odd.length}) Duration ${(durations[1] / 1000.0)}")
+//                if ( even.length > odd.length ) even else odd
             }
         }
+    }
+}
+
+fun String.expand_around_center(p: Int, r: Int=p, compare: (s:Int, e:Int)->Any) {
+    var left = p
+    var right = r
+    while (left >= 0 && right < this.length && this[left--] == this[right++]){
+        compare(left+1,right-1)
     }
 }
 
@@ -105,11 +141,13 @@ fun test() {
         println("Test 3 " + PalindromeAsync.find("ABBA"))
         println("Test 4 " + PalindromeAsync.find("DABBA"))
         println("Test 5 " + PalindromeAsync.find("DABBAF"))
+        println("Test 5 " + PalindromeAsync.find("DABVBAF"))
         println("Test 1 " + Palindrome.find("A"))
         println("Test 2 " + Palindrome.find("ABA"))
         println("Test 3 " + Palindrome.find("ABBA"))
         println("Test 4 " + Palindrome.find("DABBA"))
         println("Test 5 " + Palindrome.find("DABBAF"))
+        println("Test 6 " + Palindrome.find("DABVBAF"))
     }
 }
 
@@ -162,15 +200,21 @@ fun String.isPalindrome2() : Boolean  {
 fun main (){
     run{
         val duration = measureNanoTime {
-            test2()
+            test()
         }
         println(" Run time:${(duration/1000.0)}  milli seconds" )
     }
     run {
         val duration = measureNanoTime {
-            test3()
+            test2()
         }
         println(" Run time:${(duration / 1000.0)}  milli seconds")
+    }
+    run{
+        val duration = measureNanoTime {
+            test3()
+        }
+        println(" Run time:${(duration/1000.0)}  milli seconds" )
     }
 
 //    if ( true ) return
@@ -181,16 +225,16 @@ fun main (){
         val duration = measureNanoTime {
             out = Palindrome.find(input)
         }
-        println("  ===> $out (${out.length}). Run time:${(duration/1000.0)}  milli seconds" )
+        println("  Sync ===> $out (${out.length}). Run time:${(duration/1000.0)}  milli seconds" )
     }
     runBlocking {
         var result: String
         val duration = measureNanoTime {
             result = PalindromeAsync.find( input )
         }
-        println("  ===> $result (${result.length}). Run time:${(duration/1000.0)} milli seconds" )
+        println("  ASync ===> $result (${result.length}). Run time:${(duration/1000.0)} milli seconds" )
     }
-
+    return
 }
 
 fun List<String>.printTable(numberOfColumn:Int) {
@@ -202,7 +246,7 @@ fun List<String>.printTable(numberOfColumn:Int) {
 
 fun longString(max:Int=0): String {
     val input = """
-        ABBACDCAEABACDCAEEWRFBBBBBBBBBBAaaaaacfffcaaaaaABBBBBBBBBBABACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
+        ABBACDCAEABACDCAEEWRFBBBBBBBBBBAaaaaacfyyyyyyyyffcaaaaaABBBBBBBBBBABACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREAB    tattarrattat-tattarrattat-tattarrattat-tattarrattat-tattarrattat        ABACDCAEABACDCAEEWRFAaaaaacffcscscfcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaa            ABACDCAEABACDCAEEWRFAaaaaacffcscscfcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
@@ -218,7 +262,7 @@ fun longString(max:Int=0): String {
             ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
-            ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRF  tattarurattat tattarrattat tattarrattat tattarrattat tattarurattat   GFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
+            ABACDCAEABACDCAEEWRFAaaaaacfscscffcaaaaaBACDCAEABACDCAEEWRF  tattarurattat tattarrattat tattarTrattat tattarrattat tattarurattat   GFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFAaaaaacfffiyuyfjghvcaaaaaBACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
             ABACDCAEABACDCAEEWRFBBBBBBBBBBAaaaaacfffcaaaaaABBBBBBBBBBABACDCAEABACDCAEEWRFGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBAGFHHJKEABBABACDCAFDSFHJJMEABACDCAEEWREABBAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREAHHHHHHHHHHHHHHHHBBAEABBAAEWREABABACDCAEEWREABBABAABACABACDCAEEWREABBADCAEEWRABACDCAEEWREABBAEABBA
